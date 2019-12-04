@@ -13,7 +13,7 @@ let tags = async function (url) {
     }
     let $ = await request(options);
     let tags = [];
-    $('.item').each(function (index, item) {
+    $('.item').each(function () {
         let $this = $(this);
         // 找到了图片所有的div
         let image = $this.find('div.thumb').first();

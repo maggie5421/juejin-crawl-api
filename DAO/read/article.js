@@ -31,9 +31,9 @@ let articles = async function (url, tagName) {
                     content,
                     tagNames
                 });
-                debug(`读取到文章: ${title}`)
-            } catch (e) {
-
+                debug(`读取到文章: ${title}`);
+            } catch (e){
+                console.log(e);
             }
         }
     }
