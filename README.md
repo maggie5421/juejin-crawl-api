@@ -15,3 +15,5 @@ node ./main.js
 --- read 爬取掘金数据
 --- write 写入数据库
 --- subscribe.js  获取全部标签页数据（包括标签以及对应的文章）
+-- db.js 链接数据库
+-- main.js  主入口文件

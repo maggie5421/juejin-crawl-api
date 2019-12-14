@@ -2,9 +2,11 @@ let read = require('./read');
 let write = require('./write');
 let tagsUrl = 'https://juejin.im/subscribe/all';
 // let queryUrl = 'https://web-api.juejin.im/query';
+
 module.exports = async function () {
     // 读取标签数据
     let tags = await read.tags(tagsUrl);
+    // console.log(tags)
     // 向数据库中写入标签数据
     await write.tags(tags);
     let allAircles = {};

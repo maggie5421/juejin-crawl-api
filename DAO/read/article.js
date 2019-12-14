@@ -9,13 +9,20 @@ let articles = async function (url, tagName) {
             return cheerio.load(body);
         }
     }
-    let $ = await request(options);
-    let articles = [];
-    let items = $('.item .title');
+    const $ = await request(options);
+    const articles = [];
+    const items = $('.item .title');
     for (let i = 0; i < items.length; i++) {
-        let item = items[i];
-        let $this = $(item);
+        const item = items[i];
+        const $this = $(item);
         let href = $this.attr('href').trim();
+        const likeCount = Number($($this.parents('.item')).find('.like .count').eq(0).text()) || 0;
+        const commentsCount = Number($($this.parents('.item')).find('.comment .count').eq(0).text()) || 0;
+        const user = {
+            id: $($this.parents('.item')).find('.user-popover-box').attr('st:state'),
+            name: $($this.parents('.item')).find('.user-popover-box').text()
+        }
+        const createdAt = "";
         if (!href.startsWith('/entry')) {
             try {
                 let title = $this.text().trim();
@@ -29,11 +36,14 @@ let articles = async function (url, tagName) {
                     title,
                     href,
                     content,
-                    tagNames
+                    tagNames,
+                    likeCount,
+                    commentsCount,
+                    user,
                 });
                 debug(`读取到文章: ${title}`);
             } catch (e){
-                console.log(e);
+                console.log(e, $this.text().trim());
             }
         }
     }
@@ -41,21 +51,21 @@ let articles = async function (url, tagName) {
 }
 let article = async function (id, url) {
     debug('开始读取文章内容');
-    let options = {
+    const options = {
         url,
         transform: (body) => {
             return cheerio.load(body);
         }
     }
-    let $ = await request(options);
-    let article = $('.main-container');
-    let title = article.find('h1.article-title').text().trim();
-    let content = article.find('.article-content').html();
-    let tags = article.find('.tag-title');
+    const $ = await request(options);
+    const article = $('.main-container');
+    const title = article.find('h1.article-title').text().trim();
+    const content = article.find('.article-content').html();
+    const tags = article.find('.tag-title');
     let tagNames = [];
     tags.each(function (index, item) {
-        let $this = $(item);
-        let name = $this.text();
+        const $this = $(item);
+        const name = $this.text();
         tagNames.push(name);
     });
     return {
